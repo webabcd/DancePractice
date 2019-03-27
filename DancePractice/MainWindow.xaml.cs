@@ -26,9 +26,16 @@ namespace DancePractice
             InitializeComponent();
 
             listDance.ItemsSource = GetData();
-            
-            vce.VideoCaptureSource = MultimediaUtil.VideoInputNames[0];
-            vce.Play();
+
+            if (MultimediaUtil.VideoInputNames.Count() > 0)
+            {
+                vce.VideoCaptureSource = MultimediaUtil.VideoInputNames[0];
+                vce.Play();
+            }
+            else
+            {
+                MessageBox.Show("未发现摄像头");
+            }
 
             player.SizeChanged += delegate
             {
