@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.IO;
 using System.Windows.Threading;
+using WPFMediaKit.DirectShow.Controls;
 
 namespace DancePractice
 {
@@ -25,8 +26,16 @@ namespace DancePractice
             InitializeComponent();
 
             listDance.ItemsSource = GetData();
+            
+            vce.VideoCaptureSource = MultimediaUtil.VideoInputNames[0];
+            vce.Play();
+
+            player.SizeChanged += delegate
+            {
+                AdjustVideoCaptureElementSize();
+            };
         }
-        
+
         private List<string> GetData()
         {
             List<string> result = new List<string>();
@@ -43,14 +52,26 @@ namespace DancePractice
 
         private void ListDance_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var danceName = (string)listDance.SelectedItem;
+            string videoPath = Path.Combine(VIDEO_ROOT, danceName + "_1.mp4");
+            if (radType2.IsChecked.HasValue && radType2.IsChecked.Value)
+            {
+                videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
+            }
+
+            player.Source = new Uri(videoPath);
+            player.Play();
+            player.SpeedRatio = sliderSpeed.Value;
+
             // 选择已选中的项，不会触发此事件
         }
 
         private void Player_MediaEnded(object sender, RoutedEventArgs e)
         {
-            player.Stop();
-            player.Play();
-            player.SpeedRatio = sliderSpeed.Value;
+            // player.Stop();
+            // player.Play();
+
+            PlayDanceVideo();
         }
 
         private void Player_MediaOpened(object sender, RoutedEventArgs e)
@@ -68,18 +89,23 @@ namespace DancePractice
             catch { }
         }
 
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void PlayDanceVideo()
         {
             var danceName = (string)listDance.SelectedItem;
-            string videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
+            string videoPath = Path.Combine(VIDEO_ROOT, danceName + "_1.mp4");
             if (radType2.IsChecked.HasValue && radType2.IsChecked.Value)
             {
-                videoPath = Path.Combine(VIDEO_ROOT, danceName + "_1.mp4");
+                videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
             }
 
             player.Source = new Uri(videoPath);
             player.Play();
             player.SpeedRatio = sliderSpeed.Value;
+        }
+
+        private void AdjustVideoCaptureElementSize()
+        {
+            vce.Height = player.ActualHeight * 0.3;
         }
     }
 }
