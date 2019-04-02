@@ -114,5 +114,10 @@ namespace DancePractice
         {
             vce.Height = player.ActualHeight * 0.3;
         }
+
+        private void Player_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            MessageBox.Show(e.ErrorException.Message);
+        }
     }
 }
