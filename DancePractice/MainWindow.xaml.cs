@@ -52,7 +52,7 @@ namespace DancePractice
                 string name = file.Name.Split('_')[0];
                 result.Add(name);
             }
-            result = result.Distinct().ToList();
+            result = result.Distinct().OrderBy(p => p).ToList();
 
             return result;
         }
