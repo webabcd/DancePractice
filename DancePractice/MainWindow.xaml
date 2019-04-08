@@ -24,7 +24,11 @@
         </DockPanel>
 
         <Grid Background="Black">
-            <MediaElement Name="player" LoadedBehavior="Manual" MediaEnded="Player_MediaEnded" MediaOpened="Player_MediaOpened" MediaFailed="Player_MediaFailed" />
+            <MediaElement Name="player" LoadedBehavior="Manual" MediaEnded="Player_MediaEnded" MediaOpened="Player_MediaOpened" MediaFailed="Player_MediaFailed" RenderTransformOrigin="0.5 0.5">
+                <MediaElement.RenderTransform>
+                    <RotateTransform x:Name="rt" />
+                </MediaElement.RenderTransform>
+            </MediaElement>
             <TextBlock Name="txtSpeed" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Orange" Foreground="White" Width="50" Opacity="0.7" TextAlignment="Center" Margin="2" />
             <wpfmedia:VideoCaptureElement Name="vce" Height="0" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.5 0.5">
                 <wpfmedia:VideoCaptureElement.RenderTransform>

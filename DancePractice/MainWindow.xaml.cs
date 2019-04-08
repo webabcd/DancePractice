@@ -66,6 +66,13 @@ namespace DancePractice
                 videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
             }
 
+            int angle = 0;
+            if (danceName.Contains("-"))
+            {
+                angle = int.Parse(danceName.Split('-')[1]);
+            }
+            rt.Angle = angle;
+
             player.Source = new Uri(videoPath);
             player.Play();
             player.SpeedRatio = sliderSpeed.Value;
