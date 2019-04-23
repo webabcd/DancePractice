@@ -61,7 +61,7 @@ namespace DancePractice
         {
             var danceName = (string)listDance.SelectedItem;
             string videoPath = Path.Combine(VIDEO_ROOT, danceName + "_1.mp4");
-            if (radType2.IsChecked.HasValue && radType2.IsChecked.Value)
+            if ((radType2.IsChecked.HasValue && radType2.IsChecked.Value && File.Exists(Path.Combine(VIDEO_ROOT, danceName + "_0.mp4")) || !File.Exists(videoPath)))
             {
                 videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
             }
