@@ -59,23 +59,7 @@ namespace DancePractice
 
         private void ListDance_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var danceName = (string)listDance.SelectedItem;
-            string videoPath = Path.Combine(VIDEO_ROOT, danceName + "_1.mp4");
-            if ((radType2.IsChecked.HasValue && radType2.IsChecked.Value && File.Exists(Path.Combine(VIDEO_ROOT, danceName + "_0.mp4")) || !File.Exists(videoPath)))
-            {
-                videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
-            }
-
-            int angle = 0;
-            if (danceName.Contains("-"))
-            {
-                angle = int.Parse(danceName.Split('-')[1]);
-            }
-            rt.Angle = angle;
-
-            player.Source = new Uri(videoPath);
-            player.Play();
-            player.SpeedRatio = sliderSpeed.Value;
+            PlayDanceVideo();
 
             // 选择已选中的项，不会触发此事件
         }
@@ -107,10 +91,17 @@ namespace DancePractice
         {
             var danceName = (string)listDance.SelectedItem;
             string videoPath = Path.Combine(VIDEO_ROOT, danceName + "_1.mp4");
-            if (radType2.IsChecked.HasValue && radType2.IsChecked.Value)
+            if ((radType2.IsChecked.HasValue && radType2.IsChecked.Value && File.Exists(Path.Combine(VIDEO_ROOT, danceName + "_0.mp4")) || !File.Exists(videoPath)))
             {
                 videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
             }
+
+            int angle = 0;
+            if (danceName.Contains("-"))
+            {
+                angle = int.Parse(danceName.Split('-')[1]);
+            }
+            rt.Angle = angle;
 
             player.Source = new Uri(videoPath);
             player.Play();
@@ -124,7 +115,8 @@ namespace DancePractice
 
         private void Player_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            MessageBox.Show(e.ErrorException.Message);
+            txtMsg.Text = e.ErrorException.Message;
+            // MessageBox.Show(e.ErrorException.Message);
         }
     }
 }
