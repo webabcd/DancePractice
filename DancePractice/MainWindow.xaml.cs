@@ -105,7 +105,8 @@ namespace DancePractice
 
             player.Source = new Uri(videoPath);
             player.Play();
-            player.SpeedRatio = sliderSpeed.Value;
+            // player.SpeedRatio = sliderSpeed.Value;
+            GroupSpeed_Checked(null, null);
         }
 
         private void AdjustVideoCaptureElementSize()
@@ -117,6 +118,30 @@ namespace DancePractice
         {
             txtMsg.Text = e.ErrorException.Message;
             // MessageBox.Show(e.ErrorException.Message);
+        }
+
+        private void GroupSpeed_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                double speed = 1d;
+                if (rad25.IsChecked.Value)
+                {
+                    speed = 0.25;
+                }
+                else if (rad50.IsChecked.Value)
+                {
+                    speed = 0.5;
+                }
+                else if (rad75.IsChecked.Value)
+                {
+                    speed = 0.75;
+                }
+
+                txtSpeed.Text = speed.ToString("0.00") + "x";
+                player.SpeedRatio = speed;
+            }
+            catch { }
         }
     }
 }
