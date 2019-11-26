@@ -49,8 +49,14 @@ namespace DancePractice
             var files = new DirectoryInfo(VIDEO_ROOT).GetFiles("*.mp4");
             foreach (var file in files)
             {
-                string name = file.Name.Split('_')[0];
-                result.Add(name);
+                if (file.Name.Contains("_"))
+                {
+                    result.Add(file.Name.Split('_')[0]);
+                }
+                else
+                {
+                    result.Add(file.Name.Split('.')[0]);
+                }
             }
             result = result.Distinct().OrderBy(p => p).ToList();
 
@@ -90,7 +96,7 @@ namespace DancePractice
         private void PlayDanceVideo()
         {
             var danceName = (string)listDance.SelectedItem;
-            string videoPath = Path.Combine(VIDEO_ROOT, danceName + "_1.mp4");
+            string videoPath = Path.Combine(VIDEO_ROOT, danceName + ".mp4");
             if ((radType2.IsChecked.HasValue && radType2.IsChecked.Value && File.Exists(Path.Combine(VIDEO_ROOT, danceName + "_0.mp4")) || !File.Exists(videoPath)))
             {
                 videoPath = Path.Combine(VIDEO_ROOT, danceName + "_0.mp4");
